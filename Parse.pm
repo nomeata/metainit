@@ -1,4 +1,4 @@
-package MetaInit::Parse
+package Parse
 
 sub parse {
     my $fh = shift;
