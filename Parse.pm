@@ -15,9 +15,10 @@ sub parse {
 	    $lastkey = $key;
         }
         elsif ($lastkey) {
+	    chomp;
             s/^ //;
             s/^\.$//;
-            $parsed{$lastkey} .= $_;
+            $parsed{$lastkey} .= "\n$_";
         } else {
 	    die "Cannot parse $!";
 	}
