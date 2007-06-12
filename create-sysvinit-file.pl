@@ -1,6 +1,7 @@
 #!/usr/bin/perl -w
 #
 # Creates a sysvinit file from a metainit description.
+#
 
 use Parse;
 
@@ -13,10 +14,19 @@ print << "EOF"
 #! /bin/sh
 ### BEGIN INIT INFO
 # Provides:          $initparams{"Name"}
-# Required-Start:    $initparams{"Required-Start"}
-# Required-Stop:     $initparams{"Required-Stop"}
 # Default-Start:     2 3 4 5
 # Default-Stop:      0 1 6
+# Short-Description: $initparams{"Desc"}
+EOF
+;
+
+print "# Riequired-Start:   " . join(" ",@{$initparams{"Required-Start"}}) . "\n";
+print "# Required-Stop:     " . join(" ",@{$initparams{"Required-Stop"}}) . "\n";
+print "# Description:       ";
+print join("\n#                    ",split("\n",$initparams{"Description"}));
+print "\n";
+
+print << "EOF"
 ### END INIT INFO
 
 # WARNING:
@@ -26,7 +36,7 @@ print << "EOF"
 
 # PATH should only include /usr/* if it runs after the mountnfs.sh script
 PATH=/sbin:/usr/sbin:/bin:/usr/bin
-DESC="Description of the service"
+DESC=$initparams{"Desc"}
 NAME=$initparams{"Name"}
 DAEMON=$initparams{"Path"}
 DAEMON_ARGS=$initparams{"Args"}
