@@ -23,7 +23,7 @@ EOF
 print "# Riequired-Start:   " . join(" ",@{$initparams{"Required-Start"}}) . "\n";
 print "# Required-Stop:     " . join(" ",@{$initparams{"Required-Stop"}}) . "\n";
 print "# Description:       ";
-print join("\n#                    ",split("\n",$initparams{"Description"}));
+print join("\n#                    ",split("\n",$initparams{"Description"})). "\n";
 print "\n";
 
 print << "EOF"
@@ -66,6 +66,15 @@ print << 'EOF'
 #
 do_start()
 {
+EOF
+;
+
+if($initparams{"Prestart-Hook"}) {
+    print "\t" . join("\n\t",split("\n",$initparams{"Prestart-Hook"}));
+    print "\n";
+}
+
+print << 'EOF'
 	# Return
 	#   0 if daemon has been started
 	#   1 if daemon was already running
@@ -103,6 +112,15 @@ do_stop()
 	[ "$?" = 2 ] && return 2
 	# Many daemons don't delete their pidfiles when they exit.
 	rm -f $PIDFILE
+EOF
+;
+
+if($initparams{"Poststop-Hook"}) {
+    print "\t" . join("\n\t",split("\n",$initparams{"Poststop-Hook"}));
+    print "\n";
+}
+
+print << 'EOF';
 	return "$RETVAL"
 }
 
