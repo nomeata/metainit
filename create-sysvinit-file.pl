@@ -4,16 +4,17 @@
 
 use Parse;
 
+$filename = shift || die "Filename expected!\n";
 # Parse the metainit in
-%initparams = parse($ARGV[0]);
+%initparams = Parse::parse($filename);
 
 # Print the "dynamic" part of the initskript
-print << EOF
+print << "EOF"
 #! /bin/sh
 ### BEGIN INIT INFO
-# Provides:          $initparams{Name}
-# Required-Start:    $initparams{Required-Start}
-# Required-Stop:     $initparams{Required-Stop}
+# Provides:          $initparams{"Name"}
+# Required-Start:    $initparams{"Required-Start"}
+# Required-Stop:     $initparams{"Required-Stop"}
 # Default-Start:     2 3 4 5
 # Default-Stop:      0 1 6
 ### END INIT INFO
@@ -26,12 +27,13 @@ print << EOF
 # PATH should only include /usr/* if it runs after the mountnfs.sh script
 PATH=/sbin:/usr/sbin:/bin:/usr/bin
 DESC="Description of the service"
-NAME=$parsed{Name}
-DAEMON=$parsed{Path}
-DAEMON_ARGS=$parsed{Args}
+NAME=$initparams{"Name"}
+DAEMON=$initparams{"Path"}
+DAEMON_ARGS=$initparams{"Args"}
 PIDFILE=/var/run/\$NAME.pid
 SCRIPTNAME=/etc/init.d/\$NAME
 EOF
+;
 
 # ... and the rest of the initscript, that is identical for all
 # metainit-created scripts.

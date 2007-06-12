@@ -1,11 +1,14 @@
-package Parse
+package Parse;
 
 sub parse {
-    my $fh = shift;
+    my $filename = shift;
+    open(FILE, "<$filename") || die "$!";
 
     my %parsed;
     my $lastkey;
-    while (<$fh>) {
+    while (<FILE>) {
+	# Ignore empty lines and comments
+	next if /^$/ or /^#/;
         #last if /^$/;
         if (my ($key, $value) = m/^([^ ].*): (.*)/) {
             $parsed{$key} = $value;
@@ -29,3 +32,6 @@ sub parse {
     return %parsed;
 }
 
+
+# Return a true value
+1;
