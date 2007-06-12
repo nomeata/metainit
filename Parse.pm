@@ -22,6 +22,7 @@ sub parse {
 	    die "Cannot parse $!";
 	}
     }
+    close FILE;
 
     if (not exists $parsed{Description}) {
         $parsed{Description} = $parsed{Name}
