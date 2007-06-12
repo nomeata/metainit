@@ -19,6 +19,12 @@ sub parse {
 	    die "Cannot parse $!";
 	}
     }
+
+    if (not exists $parsed{Description}) {
+        $parsed{Description} = $parsed{Name}
+    }
+
+
     return %parsed;
 }
 
