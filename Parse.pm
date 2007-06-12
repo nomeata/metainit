@@ -24,6 +24,7 @@ sub parse {
         $parsed{Description} = $parsed{Name}
     }
 
+    ($parsed{Path}, $parsed{Args}) = split(/\s/,$parsed{Exec});
 
     return %parsed;
 }
