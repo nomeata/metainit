@@ -29,6 +29,11 @@ sub parse {
 
     ($parsed{Path}, $parsed{Args}) = split(/\s/,$parsed{Exec});
 
+    $parsed{"Required-Start"} = [split(/\s/,$parsed{"Required-Start"})];
+    $parsed{"Should-Start"} = [split(/\s/,$parsed{"Should-Start"})];
+    $parsed{"Required-Stop"} = [split(/\s/,$parsed{"Required-Stop"})];
+    $parsed{"Should-Stop"} = [split(/\s/,$parsed{"Should-Stop"})];
+
     return %parsed;
 }
 
