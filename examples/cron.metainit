@@ -1,0 +1,5 @@
+Name: cron
+Exec: /usr/sbin/cron -f
+Required-Start: $syslog $time
+Required-Stop: $syslog $time
+
