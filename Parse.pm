@@ -2,20 +2,19 @@ package Parse;
 
 sub parse {
     my $filename = shift;
-    open(FILE, "<$filename") || die "$!";
+    open(FILE, "<", $filename) || die $!;
 
     my %parsed;
     my $lastkey;
     while (<FILE>) {
 	# Ignore empty lines and comments
+	chomp;
 	next if /^$/ or /^#/;
-        #last if /^$/;
-        if (my ($key, $value) = m/^([^ ].*): (.*)/) {
+        if (my ($key, $value) = m/^(\S.*): (.*)/) {
             $parsed{$key} = $value;
 	    $lastkey = $key;
         }
         elsif ($lastkey) {
-	    chomp;
             s/^ //;
             s/^\.$//;
             $parsed{$lastkey} .= "\n$_";
@@ -29,12 +28,24 @@ sub parse {
         $parsed{Description} = $parsed{Name}
     }
 
-    ($parsed{Path}, $parsed{Args}) = split(/\s/,$parsed{Exec});
+    {
+	no warnings qw(uninitialized);
+	($parsed{Path}, $parsed{Args}) = split(/\s+/,$parsed{Exec});
 
-    $parsed{"Required-Start"} =	[split(/\s/,$parsed{"Required-Start"})];
-    $parsed{"Should-Start"} =	[split(/\s/,$parsed{"Should-Start"})];
-    $parsed{"Required-Stop"} =	[split(/\s/,$parsed{"Required-Stop"})];
-    $parsed{"Should-Stop"} =	[split(/\s/,$parsed{"Should-Stop"})];
+	my @splits = qw(Required-Start Should-Start Required-Stop Should-Stop);
+
+	for (@splits){
+		$parsed{$_} = [ split m/\s+/, $parsed{$_} ];
+	}
+    }
+
+    my @mandatory = qw(Exec Name);
+
+    my $error_msg = "";
+    for (@mandatory){
+	    $error_msg .= "No '$_:' provided\n" unless $parsed{$_};
+    } 
+    die $error_msg if $error_msg;
 
     return %parsed;
 }
