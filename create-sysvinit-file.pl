@@ -26,6 +26,14 @@ print "# Description:       ";
 print join("\n#                    ",split("\n",$initparams{"Description"})). "\n";
 print "\n";
 
+# prevent quoted strings from breaking the generated script:
+
+my %quoted_initparams;
+
+while (my ($k, $v) = each %initparams){
+	$quoted_initparams{$k} = quotemeta $v;
+}
+
 print << "EOF"
 ### END INIT INFO
 
@@ -36,10 +44,10 @@ print << "EOF"
 
 # PATH should only include /usr/* if it runs after the mountnfs.sh script
 PATH=/sbin:/usr/sbin:/bin:/usr/bin
-DESC="$initparams{"Desc"}"
-NAME=$initparams{"Name"}
+DESC=$quoted_initparams{"Desc"}
+NAME=$quoted_initparams{"Name"}
 DAEMON=$initparams{"Path"}
-DAEMON_ARGS="$initparams{"Args"}"
+DAEMON_ARGS=$quoted_initparams{"Args"}
 PIDFILE=/var/run/\$NAME.pid
 SCRIPTNAME=/etc/init.d/\$NAME
 EOF
