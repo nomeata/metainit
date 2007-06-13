@@ -1,5 +1,15 @@
 #!/bin/sh
 
+# Interface:
+# Rebuild init scripts (e.g., after a meta init script was added or edited)
+# $0 
+# 
+# Removed meta-init-script:
+# $0 --remove-metainit <scriptname>
+#
+# If a init sytem is removed, the maintainer scripts should
+# call a script that cleans up the generated files for that system directly.
+
 # This will probably be /usr/lib/metainit/translators once
 translators_dir='./translators/'
 
