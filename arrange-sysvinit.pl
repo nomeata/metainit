@@ -1,0 +1,139 @@
+#!/usr/bin/perl
+
+use strict;
+use warnings;
+
+use Parse;
+
+my $metainit_path = "./examples";
+my $etc = "./etc";
+
+my %facilities = (
+	'$local_fs'  => 0,
+	'$network'   => 0,
+	'$named'     => 15,
+	'$portmap'   => 18,
+	'$remote_fs' => 21,
+	'$syslog'    => 10,
+	'$time'      => 0,
+);
+
+# Read in all meta-init scripts
+my @metainit_files = <$metainit_path/*.metainit>;
+
+my %metainits;
+
+for my $metainit_file (@metainit_files) {
+	my %data = Parse::parse($metainit_file);
+	$metainits{$data{Name}} = \%data
+}
+
+
+# Locate existing scripts
+# We check for existing scripts only in /etc/rc2.d
+
+my %startscripts;
+for my $rc_file (<$etc/rc2.d/S??*>) {
+	my ($num, $name) = $rc_file =~ m!S(\d\d)([^/]+)!;
+	$startscripts{$name} = $num;
+}
+
+
+# Sort the scripts to existing and non-existing scripts
+my @existing;
+my @new;
+
+for my $metainit (keys %metainits) {
+	if (exists $startscripts{$metainit}) {
+		push @existing, $metainit;
+	} else {
+		push @new, $metainit;
+	}
+}
+	
+# Check the dependencies for existing scripts
+
+for my $existing (@existing) {
+	my @deps = @{$metainits{$existing}{"Required-Start"}};
+	for my $dep (@deps) {
+		if (exists $startscripts{$dep}) {
+			if ($startscripts{$dep} >= $startscripts{$existing}) {
+				warn "Late dependency $dep of $existing.\n"
+			}
+		} elsif (exists $facilities{$dep}) {
+			if ($facilities{$dep} >= $startscripts{$existing}) {
+				warn "Late facility $dep of $existing.\n"
+			}
+		} elsif (not exists $startscripts{$dep}){
+			# Nothing to do here
+		} else {
+			
+			warn "Unkown dependency $dep of $existing.\n";
+		}
+	}
+
+}
+
+my @processed = ();
+
+while (@new > 0) {
+	# Check Bounds 
+
+	my %lower;
+	my %upper;
+
+	for my $existing (@existing) {
+		my @deps = @{$metainits{$existing}{"Required-Start"}};
+		for my $dep (@deps) {
+			if (exists $startscripts{$dep}){
+				$upper{$dep} = min($startscripts{$existing}, $upper{$dep})
+			}
+		}
+	}
+
+	for my $new (@new) {
+		my @deps = @{$metainits{$new}{"Required-Start"}};
+		for my $dep (@deps) {
+			if (not exists $startscripts{$dep}){
+				$lower{$new} = $startscripts{$dep};
+				$lower{$new} = max($startscripts{$dep}, $lower{$new})
+			}
+		}
+	}
+
+	# Put a new scripts at appropriate location
+	my $current = pop @new;
+
+	# Standard case:
+	if (($lower{$current}||0) > ($upper{$current}||99)) {
+		warn "Could not correctly fit in $current, please reorder manually.\n";
+		$startscripts{$current} = $lower{$current}||10 + 10;
+		push @processed, $current;
+		push @existing,  $current;
+	} elsif (($lower{$current}||0 < 20) and not defined $upper{$current}) {
+		$startscripts{$current} = 20;
+		push @processed, $current;
+		push @existing,  $current;
+	} else {
+		$startscripts{$current} = mid($lower{$current}, $upper{$current});
+	}
+
+}
+
+for my $done (@processed) {
+	printf "%s %02d\n", $done, $startscripts{$done}
+}
+
+
+sub max {
+	return $_[1] if (defined $_[1] and $_[0] < $_[1]);
+	return $_[0]
+}
+sub min {
+	return $_[1] if (defined $_[1] and $_[0] > $_[1]);
+	return $_[0]
+}
+sub mid {
+	my ($a,$b) = @_;
+	return int(($a+$b)/2);
+}
