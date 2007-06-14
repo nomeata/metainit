@@ -8,6 +8,8 @@ use Parse;
 my $metainit_path = "./examples";
 my $etc = "./etc";
 
+my @new_scripts = @ARGV;
+
 my %facilities = (
 	'$local_fs'  => 0,
 	'$network'   => 0,
@@ -50,6 +52,10 @@ for my $metainit (keys %metainits) {
 		push @new, $metainit;
 	}
 }
+
+# Actually, we only want to treat the passed scripts as new
+@new = @new_scripts;
+
 	
 # Check the dependencies for existing scripts
 
