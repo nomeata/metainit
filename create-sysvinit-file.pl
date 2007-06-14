@@ -6,8 +6,14 @@
 use Parse;
 
 $filename = shift || die "Filename expected!\n";
+my $output = shift;
+
 # Parse the metainit in
 %initparams = %{Parse::parse($filename)};
+
+if ($output) {
+	open(STDOUT,'>',$output) or die $!;
+}
 
 # Print the "dynamic" part of the initskript
 print << "EOF"
@@ -209,3 +215,7 @@ case "$1" in
 	;;
 esac
 EOF
+
+if ($output) {
+	close STDOUT
+}
