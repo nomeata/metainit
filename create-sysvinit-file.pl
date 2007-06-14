@@ -7,7 +7,7 @@ use Parse;
 
 $filename = shift || die "Filename expected!\n";
 # Parse the metainit in
-%initparams = Parse::parse($filename);
+%initparams = %{Parse::parse($filename)};
 
 # Print the "dynamic" part of the initskript
 print << "EOF"

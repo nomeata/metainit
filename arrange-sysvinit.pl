@@ -24,8 +24,8 @@ my @metainit_files = <$metainit_path/*.metainit>;
 my %metainits;
 
 for my $metainit_file (@metainit_files) {
-	my %data = Parse::parse($metainit_file);
-	$metainits{$data{Name}} = \%data
+	my $data = Parse::parse($metainit_file);
+	$metainits{$data->{Name}} = $data;
 }
 
 

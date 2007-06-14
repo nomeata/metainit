@@ -47,7 +47,7 @@ sub parse {
     } 
     die $error_msg if $error_msg;
 
-    return %parsed;
+    return \%parsed;
 }
 
 
