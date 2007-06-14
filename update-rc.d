@@ -6,8 +6,8 @@
 use strict;
 use warnings;
 
-my $initd = ".//etc/init.d";
-my $etcd  = "./etc/rc";
+my $initd = "$ENV{PWD}/etc/init.d";
+my $etcd  = "$ENV{PWD}/etc/rc";
 my $notreally = 0;
 
 # Only parse the LSB headers when this flag exist.  It is to be used
