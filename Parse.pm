@@ -19,7 +19,7 @@ sub parse {
             s/^\.$//;
             $parsed{$lastkey} .= "\n$_";
         } else {
-	    die "Cannot parse $!";
+	    die "Cannot parse $_";
 	}
     }
     close FILE;
@@ -46,6 +46,8 @@ sub parse {
 	    $error_msg .= "No '$_:' provided\n" unless $parsed{$_};
     } 
     die $error_msg if $error_msg;
+
+    $parsed{File} = $filename;
 
     return \%parsed;
 }
