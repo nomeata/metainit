@@ -3,7 +3,6 @@
 # Creates a sysvinit file from a metainit description.
 #
 
-use lib './lib';
 use MetaInit::Parse;
 
 $filename = shift || die "Filename expected!\n";

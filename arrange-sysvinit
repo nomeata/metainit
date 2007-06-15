@@ -3,11 +3,13 @@
 use strict;
 use warnings;
 
-use lib './lib';
-use MetaInit::Parse;
+my $prefix = "";
+$prefix = $ENV{METAINIT_PREFIX} if $ENV{METAINIT_PREFIX};
 
-my $metainit_path = "./examples";
-my $etc = "./etc";
+my $metainit_path = "$prefix/etc/metainit";
+my $etc = "$prefix/etc";
+
+use MetaInit::Parse;
 
 my @new_scripts = @ARGV;
 

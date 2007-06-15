@@ -3,14 +3,14 @@
 use strict;
 use warnings;
 
-use lib './lib';
-
 use MetaInit::Parse;
 
-my $metainit_dir = './examples';
-my $etc = './etc';
-my $utils = '.';
-my $updatercd = './update-rc.d';
+my $prefix = "";
+$prefix = $ENV{METAINIT_PREFIX} if $ENV{METAINIT_PREFIX};
+
+my $metainit_dir = "$prefix/etc/metainit";
+my $etc = "$prefix/etc";
+my $updatercd = "$prefix/usr/sbin/update-rc.d";
 
 #
 # Rough plan of operation:
