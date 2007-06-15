@@ -3,7 +3,8 @@
 use strict;
 use warnings;
 
-use Parse;
+use lib './lib';
+use MetaInit::Parse;
 
 my $metainit_path = "./examples";
 my $etc = "./etc";
@@ -26,7 +27,7 @@ my @metainit_files = <$metainit_path/*.metainit>;
 my %metainits;
 
 for my $metainit_file (@metainit_files) {
-	my $data = Parse::parse($metainit_file);
+	my $data = MetaInit::Parse::parse($metainit_file);
 	$metainits{$data->{Name}} = $data;
 }
 

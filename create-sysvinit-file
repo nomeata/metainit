@@ -3,13 +3,14 @@
 # Creates a sysvinit file from a metainit description.
 #
 
-use Parse;
+use lib './lib';
+use MetaInit::Parse;
 
 $filename = shift || die "Filename expected!\n";
 my $output = shift;
 
 # Parse the metainit in
-%initparams = %{Parse::parse($filename)};
+%initparams = %{MetaInit::Parse::parse($filename)};
 
 if ($output) {
 	open(STDOUT,'>',$output) or die $!;

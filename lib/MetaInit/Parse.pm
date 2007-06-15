@@ -1,4 +1,4 @@
-package Parse;
+package MetaInit::Parse;
 
 sub parse {
     my $filename = shift;

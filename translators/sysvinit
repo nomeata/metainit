@@ -3,7 +3,9 @@
 use strict;
 use warnings;
 
-use Parse;
+use lib './lib';
+
+use MetaInit::Parse;
 
 my $metainit_dir = './examples';
 my $etc = './etc';
@@ -39,7 +41,7 @@ if ($remove) {
 	}
 
 	my %arrangement = ();
-	open(ARRANGE, '-|',"$utils/arrange-sysvinit.pl",@generated) or die $!;
+	open(ARRANGE, '-|',"$utils/arrange-sysvinit",@generated) or die $!;
 	while (<ARRANGE>) {
 		if (/^([\w\.-]+) (\d\d)$/){
 			$arrangement{$1} = $2;
@@ -59,7 +61,7 @@ if ($remove) {
 sub read_metainits{
 	my @metainits;
 	for my $metainit_file (<$metainit_dir/*.metainit>) {
-		push @metainits, Parse::parse($metainit_file);
+		push @metainits, MetaInit::Parse::parse($metainit_file);
 	}
 	return @metainits;
 }
@@ -87,7 +89,7 @@ sub regenerate_initscript {
 		# For now, we just override it always.
 	}
 
-	system("$utils/create-sysvinit-file.pl", $metainit->{File}, $initscript);
+	system("$utils/create-sysvinit-file", $metainit->{File}, $initscript);
 
 	return $new;
 
