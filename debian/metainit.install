@@ -1,0 +1,4 @@
+utils		/usr/share/metainit/
+translators	/usr/share/metainit/
+update-metainits	/usr/sbin
+

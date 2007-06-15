@@ -1,0 +1,14 @@
+Source: metainit
+Section: admin
+Priority: optional
+Maintainer: Joachim Breitner <nomeata@debian.org>
+Build-Depends: debhelper (>= 4.0.0)
+Standards-Version: 3.7.2
+XS-VCS-Darcs: http://darcs.nomeata.de/metainit
+
+Package: metainit
+Architecture: all
+#Depends: ${shlibs:Depends}
+Description: Generated init scripts
+ Metainit will blah blah generate init scripts for some daemons bla
+ blah.
