@@ -6,6 +6,9 @@
 use strict;
 use warnings;
 
+# This is a locally modified version of /usr/sbin/update-rc.d to work in the local 
+# directory, to use for testing purposes.
+
 my $initd = "$ENV{PWD}/etc/init.d";
 my $etcd  = "$ENV{PWD}/etc/rc";
 my $notreally = 0;
