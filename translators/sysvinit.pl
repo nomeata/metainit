@@ -80,6 +80,7 @@ sub regenerate_initscript {
 			}
 		}
 		close INIT;
+		warn "Not overriding user-modified init script $initscript.\n";
 		return 0 if (not $can_touch);
 	} else {
 		# Here me might want to check if the file is up-to-date.
