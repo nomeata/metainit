@@ -11,6 +11,9 @@ $prefix = $ENV{METAINIT_PREFIX} if $ENV{METAINIT_PREFIX};
 my $metainit_dir = "$prefix/etc/metainit";
 my $etc = "$prefix/etc";
 my $updatercd = "$prefix/usr/sbin/update-rc.d";
+my $metainit_base = "$prefix/usr/share/metainit";
+
+$metainit_base = $ENV{METAINIT_PREFIX} if $ENV{METAINIT_PREFIX};
 
 #
 # Rough plan of operation:
@@ -41,7 +44,7 @@ if ($remove) {
 	}
 
 	my %arrangement = ();
-	open(ARRANGE, '-|',"$utils/arrange-sysvinit",@generated) or die $!;
+	open(ARRANGE, '-|',"$metainit_base/utils/arrange-sysvinit",@generated) or die $!;
 	while (<ARRANGE>) {
 		if (/^([\w\.-]+) (\d\d)$/){
 			$arrangement{$1} = $2;
@@ -89,7 +92,7 @@ sub regenerate_initscript {
 		# For now, we just override it always.
 	}
 
-	system("$utils/create-sysvinit-file", $metainit->{File}, $initscript);
+	system("$metainit_base/utils/create-sysvinit-file", $metainit->{File}, $initscript);
 
 	return $new;
 

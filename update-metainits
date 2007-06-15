@@ -11,11 +11,16 @@
 # call a script that cleans up the generated files for that system directly.
 
 # This will probably be /usr/lib/metainit/translators once
-translators_dir='./translators/'
+if test -n "$METAINIT_PREFIX"
+then
+	translators_dir="$METAINIT_PREFIX/translators/"
+else
+	translators_dir="/usr/share/metainit/translators/"
+fi
 
 # This is just a thin wrapper around the per-init-system
 # translators. 
-for trans in translators_dir/*
+for trans in $translators_dir/*
 do
-	trans "$@"
+	$trans "$@"
 done
