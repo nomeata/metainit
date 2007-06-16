@@ -1,4 +1,5 @@
 utils		/usr/share/metainit/
 translators	/usr/share/metainit/
 update-metainit	/usr/sbin
+lib/*		/usr/share/perl5
 
