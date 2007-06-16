@@ -96,7 +96,6 @@ foreach my $package (@{$dh{DOPACKAGES}}) {
 	my $tmp=tmpdir($package);
 
 	# Figure out what filename to install it as.
-	# TODO: get $script from the metainit file
 	my $script;
 	if (defined $dh{NAME}) {
 		$script=$dh{NAME};
@@ -109,14 +108,6 @@ foreach my $package (@{$dh{DOPACKAGES}}) {
 	}       
 	
 	my $init=pkgfile($package,$script) || pkgfile($package,'metainit')
-	my $default=pkgfile($package,'default');
-
-	if ($default ne '' && ! $dh{ONLYSCRIPTS}) {
-		if (! -d "$tmp/etc/default") {
-			doit("install","-d","$tmp/etc/default");
-		}
-		doit("install","-p","-m644",$default,"$tmp/etc/default/$script");
-	}
 
 	if ($init ne '' || $dh{ONLYSCRIPTS}) {
 		if (! $dh{ONLYSCRIPTS}) {
