@@ -1,0 +1,138 @@
+== How to convert to metainit ==
+
+(Without using dh_metainit)
+
+Insert more text here. Until then, see the following diff for a
+real conversion:
+
+Index: control
+===================================================================
+--- control	(Revision 206)
++++ control	(Arbeitskopie)
+@@ -8,7 +8,7 @@
+ 
+ Package: infon-server
+ Architecture: any
+-Depends: ${shlibs:Depends}, ${misc:Depends}
++Depends: ${shlibs:Depends}, ${misc:Depends}, metainit
+ Description: Program bugs to compete for food and survival - Server
+  Infon is a game which simulates the live of simple bugs who eat,
+  propagate, eat each other and evolve. The players can not control
+
+
+Index: infon-server.install
+===================================================================
+--- infon-server.install	(Revision 206)
++++ infon-server.install	(Arbeitskopie)
+@@ -4,4 +4,4 @@
+ infond.lua player.lua server.lua	usr/share/infon-server/
+ rules/	etc/infond/
+ config.lua	etc/infond/
+-
++debian/infon-server.metainit etc/metainit
+
+
+
+Index: infon-server.metainit
+===================================================================
+--- infon-server.metainit	(Revision 0)
++++ infon-server.metainit	(Revision 0)
+@@ -0,0 +1 @@
++Exec: /usr/bin/infond
+
+
+
+Index: changelog
+===================================================================
+--- changelog	(Revision 206)
++++ changelog	(Arbeitskopie)
+@@ -1,3 +1,9 @@
++infon (0~r198-2) UNRELEASED; urgency=low
++
++  * Uses metainit (very experimental)
++
++ -- Joachim Breitner <nomeata@debian.org>  Sat, 16 Jun 2007 15:34:22 +0100
++
+ infon (0~r198-1) unstable; urgency=low
+ 
+   * New upstream release
+
+
+
+Index: rules
+===================================================================
+--- rules	(Revision 206)
++++ rules	(Arbeitskopie)
+@@ -94,7 +94,7 @@
+ 	dh_installdocs
+ #	dh_installexamples
+ 	dh_installmenu
+-	dh_installinit
++	#dh_installinit
+ 	dh_installman
+ 	dh_link
+ 	dh_strip
+
+
+
+Index: infon-server.postinst
+===================================================================
+--- infon-server.postinst	(Revision 0)
++++ infon-server.postinst	(Revision 0)
+@@ -0,0 +1,16 @@
++#!/bin/sh
++
++#DEBHELPER#
++
++/usr/sbin/update-metainit  >/dev/null
++if [ -x "/etc/init.d/infon-server" ]; then
++
++        if [ -x "`which invoke-rc.d 2>/dev/null`" ]; then
++                invoke-rc.d infon-server start || exit $?
++        else
++		if [ -x /etc/init.d/infon-server ]; then
++	                /etc/init.d/infon-server start || exit $?
++		fi
++        fi
++fi
++
+
+
+
+Index: infon-server.postrm
+===================================================================
+--- infon-server.postrm	(Revision 0)
++++ infon-server.postrm	(Revision 0)
+@@ -0,0 +1,10 @@
++#!/bin/sh
++
++set -e
++
++#DEBHELPER#
++
++if [ "$1" = "purge" ] ; then
++        /usr/sbin/update-metainit --remove infon-server --purge >/dev/null
++fi
++
+
+
+
+Index: infon-server.prerm
+===================================================================
+--- infon-server.prerm	(Revision 0)
++++ infon-server.prerm	(Revision 0)
+@@ -0,0 +1,14 @@
++#!/bin/sh
++
++set -e
++
++#DEBHELPER#
++
++if [ -x "/etc/init.d/infon-server" ]; then
++	if [ -x "`which invoke-rc.d 2>/dev/null`" ]; then
++		invoke-rc.d infon-server stop || exit $?
++	else
++                /etc/init.d/infon-server stop || exit $?
++	fi
++fi
++
