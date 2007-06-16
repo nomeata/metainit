@@ -27,8 +27,7 @@ backslash (\#).
 
 =head2 FIELDS
 
-A MetaInit file has several defined fields, out of which only some (C<Name> and
-C<Exec>) are mandatory:
+A MetaInit file has several defined fields, out of which only C<Exec> is mandatory:
 
 =over 4
 
