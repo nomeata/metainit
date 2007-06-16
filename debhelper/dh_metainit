@@ -16,18 +16,15 @@ B<dh_installmetainit> [S<I<debhelper options>>] [B<--name=>I<name>] [B<-n>] [B<-
 =head1 DESCRIPTION
 
 dh_installinit is a debhelper program that is responsible for installing
-init scripts and associated defaults files into package build directories.
+metainit files (for further creation of initscripts via the update-metainit
+facility) into package build directories.
 
 It also automatically generates the postinst and postrm and prerm commands
-needed to set up the symlinks in /etc/rc*.d/ and to start and stop the init
-scripts.
+needed to create the appropriate initscripts for the init system employed on
+the user machine.
 
-If a file named debian/package.init exists, then it is installed into
-etc/init.d/package in the package build directory, with "package" replaced
-by the package name.
-
-If a file named debian/package.default exists, then it is installed into
-etc/default/package in the package build directory, with "package" replaced
+If a file named debian/package.metainit exists, then it is installed into
+etc/metainit/package in the package build directory, with "package" replaced
 by the package name.
 
 =head1 OPTIONS
@@ -40,10 +37,9 @@ Do not modify postinst/postrm/prerm scripts.
 
 =item B<-o>, B<--onlyscripts>
 
-Only modify postinst/postrm/prerm scripts, do not actually install any init
-script or default files. May be useful if the init script is shipped and/or
-installed by upstream in a way that doesn't make it easy to let
-dh_installinit find it.
+Only modify postinst/postrm/prerm scripts, do not actually install any metainit
+files. May be useful if the init script is shipped and/or installed by upstream
+in a way that doesn't make it easy to let dh_installinit find it.
 
 =item B<-r>, B<--no-restart-on-upgrade>
 
@@ -62,17 +58,16 @@ Pass "params" to L<update-metainit(8)>.
 
 =item B<--name=>I<name>
 
-Install the init script (and default file) using the filename I<name>
-instead of the default filename, which is the package name. When this
-parameter is used, dh_installinit looks for and installs files named
-debian/package.name.init and debian/package.name.default, instead of the
-usual debian/package.init and debian/package.default.
+Install the metainit script (and default file) using the filename I<name>
+instead of the default filename, which is the package name. When this parameter
+is used, dh_metainit looks for and installs files named
+debian/package.name.metainit, instead of the usual debian/package.init.
 
 =item B<--init-script=>I<scriptname>
 
-Use "scriptname" as the filename the init script is installed as in
-etc/init.d/ (and also use it as the filename for the defaults file, if it
-is installed). If you use this parameter, dh_installinit will look to see
+Use "scriptname" as the filename the metainit script is installed as in
+etc/metainit/ (and also use it as the filename for the defaults file, if it
+is installed). If you use this parameter, dh_metainit will look to see
 if a file in the debian/ directory exists that looks like
 "package.scriptname" and if so will install it as the init script in
 preference to the files it normally installs.
