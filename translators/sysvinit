@@ -27,12 +27,17 @@ $metainit_base = $ENV{METAINIT_PREFIX} if $ENV{METAINIT_PREFIX};
 use Getopt::Long;
 
 my $remove = '';
-GetOptions( 'remove-metainit=s' => \$remove );
+my $purge = 0;
+GetOptions( 'purge' => \$purge, 'remove-metainit=s' => \$remove );
 
 if ($remove) {
 	# Operation: Remove all geranted files for the given metainit name
-	remove($remove)
+	remove($remove, $purge)
 } else {
+	if ($purge) {
+		die "--purge only useful in conjunction with --remove.\n";
+		exit 1;
+	}
 	# Operation: Rebuild everything
 	
 	#check_orphaned_initscripts()
@@ -122,10 +127,11 @@ sub init_script_filename {
 
 sub remove {
 	my $initname = shift;
+	my $purge = shift;
 	my $initscript = init_script_filename($initname);
-	if (may_modify($initscript)) {
+	if (may_modify($initscript) || $purge) {
 		warn "Removing init script $initscript\n";
-		unlink $initscript or warn $!;
+		unlink $initscript or warn $! if -e $initscript;
 		system($updatercd, $initname, "remove");
 	} else {
 		warn "Init script $initscript is modified, not removing.\n";
