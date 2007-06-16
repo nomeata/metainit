@@ -15,6 +15,14 @@ if ($output) {
 	open(STDOUT,'>',$output) or die $!;
 }
 
+my $rl_start = "2 3 4 5";
+my $rl_stop  = "0 1 6";
+
+if ($initparams{"No-Auto"}) {
+	$rl_start = "";
+	$rl_stop  = "0 1 2 3 4 5 6";
+}
+
 # Print the "dynamic" part of the initskript
 print << "EOF"
 #! /bin/sh
@@ -29,8 +37,8 @@ print << "EOF"
 #
 ### BEGIN INIT INFO
 # Provides:          $initparams{"Name"}
-# Default-Start:     2 3 4 5
-# Default-Stop:      0 1 6
+# Default-Start:     $rl_start
+# Default-Stop:      $rl_stop
 # Short-Description: $initparams{"Desc"}
 EOF
 ;

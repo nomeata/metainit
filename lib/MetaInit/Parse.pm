@@ -73,6 +73,13 @@ the daemon is run
 A shell snippet that should be included in the generated init script I<after>
 the daemon finishes running
 
+=item No-Auto
+
+If this is set to anything, the generated init scripts will be installed in a
+way that the deamon is not started by default on system start up. It can still
+be started manually (e.g. using /etc/init.d/<name> start) and be configured to
+start automatically (e.g. by adjusting the symlinks).
+
 =back
 
 Some fields (Required-Start, Should-Start, Required-Stop and Should-Stop) will
@@ -101,9 +108,16 @@ my @mandatory = qw(Exec);
 
 sub parse {
     my $filename = shift;
-    open(FILE, "<", $filename) || die $!;
+
+    # Defaults:
 
     my %parsed;
+    $parsed{Name} = basename($filename,'.metainit');
+	$parsed{Desc} = $parsed{Name};
+	$parsed{"No-Auto"} = 0;
+
+    open(FILE, "<", $filename) || die $!;
+
     my $lastkey;
     while (<FILE>) {
         chomp;
@@ -128,16 +142,10 @@ sub parse {
     }
     close FILE;
 
-    $parsed{Name} = basename($filename,'.metainit');
-
-    if (not exists $parsed{Desc}) {
-        $parsed{Desc} = $parsed{Name}
-    }
     
     if (not exists $parsed{Description}) {
         $parsed{Description} = $parsed{Desc}
     }
-
 
     {
         ($parsed{Path}, $parsed{Args}) = split(/\s+/,$parsed{Exec});

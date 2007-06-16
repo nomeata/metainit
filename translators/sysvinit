@@ -41,9 +41,9 @@ if ($remove) {
 	# Operation: Rebuild everything
 	
 	#check_orphaned_initscripts()
-	my @metainits = read_metainits();
+	my %metainits = read_metainits();
 	my @generated = ();
-	foreach my $metainit (@metainits) {
+	foreach my $metainit (values %metainits) {
 		my $created = regenerate_initscript($metainit);
 		push @generated, $metainit->{Name} if $created;
 	}
@@ -60,18 +60,24 @@ if ($remove) {
 	close ARRANGE;
 
 	while (my ($initname,$num) = each %arrangement) {
-		system($updatercd, $initname, "defaults", $num);
+		if ($metainits{$initname}{"No-Auto"}) {
+			system($updatercd, $initname, "stop", 100-$num, 0..6, '.');
+		} else {
+			system($updatercd, $initname, "defaults", $num, 100-$num);
+		}
+
 	}
 
 
 }
 
 sub read_metainits{
-	my @metainits;
+	my %metainits;
 	for my $metainit_file (<$metainit_dir/*.metainit>) {
-		push @metainits, MetaInit::Parse::parse($metainit_file);
+		my $parsed = MetaInit::Parse::parse($metainit_file);
+		$metainits{$parsed->{Name}} = $parsed;
 	}
-	return @metainits;
+	return %metainits;
 }
 
 sub regenerate_initscript {
