@@ -212,5 +212,7 @@ esac
 EOF
 
 if ($output) {
-	close STDOUT
+	close STDOUT;
+	chmod '0755', $output or die $!;
+
 }
