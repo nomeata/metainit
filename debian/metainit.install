@@ -1,4 +1,4 @@
 utils		/usr/share/metainit/
 translators	/usr/share/metainit/
-update-metainits	/usr/sbin
+update-metainit	/usr/sbin
 
