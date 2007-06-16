@@ -1,4 +1,3 @@
-Name: cron
 Desc: periodic command scheduler
 Description: cron is a standard UNIX program that runs user-specified 
  programs at periodic scheduled times. vixie cron adds a 

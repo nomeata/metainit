@@ -31,10 +31,6 @@ C<Exec>) are mandatory:
 
 =over 4
 
-=item Name
-
-The name of the daemon or facility for which to generate the init scripts for
-
 =item Desc
 
 A short (~60 character) description of the daemon. Merely informative.
@@ -97,8 +93,10 @@ http://refspecs.freestandards.org/LSB_2.1.0/LSB-generic/LSB-generic/facilname.ht
 
 =cut
 
+use File::Basename;
+
 my @splits = qw(Required-Start Should-Start Required-Stop Should-Stop);
-my @mandatory = qw(Exec Name);
+my @mandatory = qw(Exec);
 
 sub parse {
     my $filename = shift;
@@ -128,6 +126,8 @@ sub parse {
 	}
     }
     close FILE;
+
+    $parsed{Name} = basename($filename,'.metainit');
 
     if (not exists $parsed{Description}) {
         $parsed{Description} = $parsed{Name}
