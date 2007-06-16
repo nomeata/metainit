@@ -140,6 +140,7 @@ sub parse {
 
     {
 	($parsed{Path}, $parsed{Args}) = split(/\s+/,$parsed{Exec});
+	$parsed{Basename} = basename $parsed{Path};
 
 	for (@splits){
 		$parsed{$_} = [ split m/\s+/, $parsed{$_}||'' ];
