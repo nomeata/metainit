@@ -128,6 +128,10 @@ sub init_script_filename {
 sub remove {
 	my $initname = shift;
 	my $purge = shift;
+	# It seems that --remove without --purge is not good, because possible user
+	# configuration in the form of rc syslinks will not be presered. We rather
+	# leave the generated init script around until purge then. So do not call
+	# --remove in postrm if not purging, and do call --remove --purge when purging.
 	my $initscript = init_script_filename($initname);
 	if (may_modify($initscript) || $purge) {
 		warn "Removing init script $initscript\n";
