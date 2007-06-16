@@ -15,7 +15,16 @@ if ($output) {
     open(STDOUT,'>',$output) or die "Can't open '$output': $!";
 }
 
-# Print the "dynamic" part of the initskript
+# Print the "dynamic" part of the initscript
+
+my $rl_start = "2 3 4 5";
+my $rl_stop  = "0 1 6";
+
+if ($initparams{"No-Auto"}) {
+	$rl_start = "";
+	$rl_stop  = "0 1 2 3 4 5 6";
+}
+
 print << "EOF"
 #! /bin/sh
 #
