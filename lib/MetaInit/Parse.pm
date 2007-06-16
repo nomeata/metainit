@@ -1,4 +1,5 @@
 package MetaInit::Parse;
+use v5.008;
 
 =head1 NAME
 
@@ -105,25 +106,25 @@ sub parse {
     my %parsed;
     my $lastkey;
     while (<FILE>) {
-	chomp;
-	# Ignore comments; unescape escaped #s
-	s/[^\\]\#.*//;
-	s/\\\#/\#/g;
-	# Ignore empty lines; convert single dots in a line into empty lines
-	next if /^\s*$/;
-	s/^\s*\.\s*$//;
+        chomp;
+        # Ignore comments; unescape escaped #s
+        s/[^\\]\#.*//;
+        s/\\\#/\#/g;
+        # Ignore empty lines; convert single dots in a line into empty lines
+        next if /^\s*$/;
+        s/^\s*\.\s*$//;
 
         if (my ($key, $value) = m/^(\S.*)\s*:\s*(.*)/) {
             $parsed{$key} = $value;
-	    $lastkey = $key;
+            $lastkey = $key;
         }
         elsif ($lastkey) {
             s/^\s+//;
             s/^\.$//;
             $parsed{$lastkey} .= "\n$_";
         } else {
-	    die "Cannot parse line: ``$_''";
-	}
+            die "Cannot parse line: ``$_''";
+        }
     }
     close FILE;
 
@@ -139,17 +140,17 @@ sub parse {
 
 
     {
-	($parsed{Path}, $parsed{Args}) = split(/\s+/,$parsed{Exec});
-	$parsed{Basename} = basename $parsed{Path};
+        ($parsed{Path}, $parsed{Args}) = split(/\s+/,$parsed{Exec});
+        $parsed{Basename} = basename $parsed{Path};
 
-	for (@splits){
-		$parsed{$_} = [ split m/\s+/, $parsed{$_}||'' ];
-	}
+        for (@splits){
+            $parsed{$_} = [ split m/\s+/, $parsed{$_}||'' ];
+        }
     }
 
     my $error_msg = "";
     for (@mandatory){
-	    $error_msg .= "No '$_:' provided\n" unless $parsed{$_};
+            $error_msg .= "No '$_:' provided\n" unless $parsed{$_};
     } 
     die $error_msg if $error_msg;
 
@@ -161,3 +162,5 @@ sub parse {
 
 # Return a true value
 1;
+
+# vim:sw=4:ts=4:expandtab
