@@ -129,16 +129,20 @@ sub parse {
 
     $parsed{Name} = basename($filename,'.metainit');
 
+    if (not exists $parsed{Desc}) {
+        $parsed{Desc} = $parsed{Name}
+    }
+    
     if (not exists $parsed{Description}) {
-        $parsed{Description} = $parsed{Name}
+        $parsed{Description} = $parsed{Desc}
     }
 
+
     {
-	no warnings qw(uninitialized);
 	($parsed{Path}, $parsed{Args}) = split(/\s+/,$parsed{Exec});
 
 	for (@splits){
-		$parsed{$_} = [ split m/\s+/, $parsed{$_} ];
+		$parsed{$_} = [ split m/\s+/, $parsed{$_}||'' ];
 	}
     }
 

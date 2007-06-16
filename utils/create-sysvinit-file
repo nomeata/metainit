@@ -46,7 +46,7 @@ print "\n";
 my %quoted_initparams;
 
 while (my ($k, $v) = each %initparams){
-	$quoted_initparams{$k} = quotemeta $v;
+	$quoted_initparams{$k} = quotemeta ($v || '');
 }
 
 print << "EOF"
