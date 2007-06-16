@@ -207,6 +207,6 @@ EOF
 
 if ($output) {
 	close STDOUT;
-	chmod '0755', $output or die $!;
+	chmod 0755, $output or die $!;
 
 }
