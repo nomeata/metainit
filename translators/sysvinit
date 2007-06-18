@@ -60,12 +60,10 @@ if ($remove) {
 	close ARRANGE;
 
 	while (my ($initname,$num) = each %arrangement) {
-		if ($metainits{$initname}{"No-Auto"}) {
-			system($updatercd, $initname, "stop", 100-$num, 0..6, '.');
-		} else {
-			system($updatercd, $initname, "defaults", $num, 100-$num);
-		}
-
+		system($updatercd, $initname,
+			@{$metainits{"Start-Levels"}} && ("start", $num, @{$metainits{"Start-Levels"}}, "."),
+			@{$metainits{"Stop-Levels"}} && ("stop", $num, @{$metainits{"Stop-Levels"}}, "."),
+		)
 	}
 
 

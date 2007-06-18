@@ -155,6 +155,22 @@ sub parse {
         }
     }
 
+    if ($parsed{"No-Auto"}) {
+        $parsed{"Start-Levels"} = [];
+        $parsed{"Stop-Levels"}  = [1,2,3,4,5];
+    } else {
+        $parsed{"Start-Levels"} = [2,3,4,5];
+        $parsed{"Stop-Levels"}  = [1];
+    }
+
+    if ($parsed{"Post-Stop"}) {
+        push @{$parsed{"Stop-Levels"}}, 0, 6;
+    }
+
+    for (qw/Start-Levels Stop-Levels/) {
+        @{$parsed{$_}} = sort @{$parsed{$_}};
+    }
+
     my $error_msg = "";
     for (@mandatory){
             $error_msg .= "No '$_:' provided\n" unless $parsed{$_};
