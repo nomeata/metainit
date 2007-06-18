@@ -2,7 +2,7 @@
 
 use strict;
 use warnings;
-use List::Util qw(min max sum);
+use List::Util qw(sum);
 
 my $prefix = "";
 $prefix = $ENV{METAINIT_PREFIX} if $ENV{METAINIT_PREFIX};
@@ -132,6 +132,16 @@ while (@new > 0) {
 
 for my $done (@processed) {
     printf "%s %02d\n", $done, $startscripts{$done}
+}
+
+sub max {
+    return $_[1] if (defined $_[1] and $_[0] < $_[1]);
+    return $_[0]
+}   
+
+sub min {
+    return $_[1] if (defined $_[1] and $_[0] > $_[1]);
+    return $_[0]
 }
 
 
