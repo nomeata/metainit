@@ -2,5 +2,5 @@
 # . local-test-bash-source
 # to run the metainit scripts locally.
 
-export METAINIT_PREFIX=$PWD
-export PERL5LIB=$PWD/lib
+export METAINIT_PREFIX="$PWD"
+export PERL5LIB="$PWD/lib:$PER5LIB"
