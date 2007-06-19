@@ -147,13 +147,11 @@ sub parse {
         $parsed{Description} = $parsed{Desc}
     }
 
-    {
-        ($parsed{Path}, $parsed{Args}) = split(/\s+/,$parsed{Exec});
-        $parsed{Basename} = basename $parsed{Path};
+    ($parsed{Path}, $parsed{Args}) = split(/\s+/,$parsed{Exec});
+    $parsed{Basename} = basename $parsed{Path};
 
-        for (@splits){
-            $parsed{$_} = [ split m/\s+/, $parsed{$_}||'' ];
-        }
+    for (@splits){
+        $parsed{$_} = [ split m/\s+/, $parsed{$_}||'' ];
     }
 
     if ($parsed{"No-Auto"}) {
