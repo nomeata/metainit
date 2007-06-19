@@ -1,5 +1,5 @@
 metainit (0.0.1) UNRELEASED; urgency=low
 
-  * Initial release.
+  * Initial release for testing, not yet for the archive.
 
- -- Joachim Breitner <nomeata@debian.org>  Fri, 15 Jun 2007 21:52:00 +0100
+ -- Joachim Breitner <nomeata@debian.org>  Tue, 19 Jun 2007 18:12:22 +0100
