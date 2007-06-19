@@ -8,11 +8,14 @@ XS-VCS-Darcs: http://darcs.nomeata.de/metainit
 
 Package: metainit
 Architecture: all
-#Depends: ${shlibs:Depends}
 Depends: ${perl:Depends}
-Description: Generated init scripts
- Metainit will blah blah generate init scripts for some daemons bla
- blah.
+Description: Generates init scripts
+ Metainit solves the problem of writing good init scripts.
+ Instead of manually creating these important files, they are
+ derived from a declaritive description in the metainit files
+ in /etc/metainit. These files can be shipped with packages
+ or created by the local administrator.
+
 
 Package: dh-metainit
 Architecture: all
