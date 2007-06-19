@@ -60,12 +60,12 @@ if ($remove) {
 	close ARRANGE;
 
 	while (my ($initname,$num) = each %arrangement) {
+		my %data = %{$metainits{$initname}};
 		system($updatercd, $initname,
-			@{$metainits{"Start-Levels"}} && ("start", $num, @{$metainits{"Start-Levels"}}, "."),
-			@{$metainits{"Stop-Levels"}} && ("stop", $num, @{$metainits{"Stop-Levels"}}, "."),
-		)
+			@{$data{"Start-Levels"}} ?  ("start", $num, @{$data{"Start-Levels"}}, ".") : (),
+			@{$data{"Stop-Levels"}}  ?  ("stop",  $num, @{$data{"Stop-Levels"}}, ".") : ()
+		);
 	}
-
 
 }
 
