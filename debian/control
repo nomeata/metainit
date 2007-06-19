@@ -13,3 +13,11 @@ Depends: ${perl:Depends}
 Description: Generated init scripts
  Metainit will blah blah generate init scripts for some daemons bla
  blah.
+
+Package: dh-metainit
+Architecture: all
+Depends: debhelper, ${perl:Depends}
+Description: Debhelper addon to install and register a metainit file
+ This debhelper script should be used by package that ship an 
+ metainit file. It installs the metainit file in the right spot and add
+ the required actions to the maintainer scripts.

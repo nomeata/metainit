@@ -1,0 +1,2 @@
+debhelper/dh_metainit	/usr/bin
+debhelper/autoscripts/* /usr/share/debhelper/autoscripts
