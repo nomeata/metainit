@@ -72,7 +72,7 @@ if ($remove) {
 sub read_metainits{
 	my %metainits;
 	for my $metainit_file (<$metainit_dir/*.metainit>) {
-		my $parsed = MetaInit::Parse::parse($metainit_file);
+		my $parsed = MetaInit::Parse::parse({ filename => $metainit_file });
 		$metainits{$parsed->{Name}} = $parsed;
 	}
 	return %metainits;

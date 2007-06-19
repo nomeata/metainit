@@ -30,7 +30,7 @@ my @metainit_files = <$metainit_path/*.metainit>;
 my %metainits;
 
 for my $metainit_file (@metainit_files) {
-    my $data = MetaInit::Parse::parse($metainit_file);
+    my $data = MetaInit::Parse::parse({ filename => $metainit_file });
     $metainits{$data->{Name}} = $data;
 }
 

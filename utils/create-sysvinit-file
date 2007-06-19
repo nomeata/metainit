@@ -9,7 +9,7 @@ $filename = shift || die "Useage: $0 <filename>\n";
 my $output = shift;
 
 # Parse the metainit in
-%initparams = %{MetaInit::Parse::parse($filename)};
+%initparams = %{MetaInit::Parse::parse({ filename => $filename })};
 
 if ($output) {
     open(STDOUT,'>',$output) or die "Can't open '$output': $!";
