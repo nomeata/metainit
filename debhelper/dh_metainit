@@ -23,9 +23,17 @@ It also automatically generates the postinst and postrm and prerm commands
 needed to create the appropriate initscripts for the init system employed on
 the user machine.
 
+B<Important:> If generated postinst script finds /etc/init.d/ or /etc/default files with the same
+name as the shipped metainit files, and these are conffiles from non-installed
+packages (probably earlier version of this package) they are removed (or renamed
+if the user has modified them). This works only if the name of the new metainit is
+the same as the name of the old init.d and default file, otherwise you will have to
+remove these files yourself. See http://wiki.debian.org/DpkgConffileHandling for that.
+
 If a file named debian/package.metainit exists, then it is installed into
 etc/metainit/package in the package build directory, with "package" replaced
 by the package name.
+
 
 =head1 OPTIONS
 

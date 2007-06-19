@@ -11,11 +11,12 @@
 
 
 build:	
-	# Nothing to do here
+	pod2man debhelper/dh_metainit > dh_metainit.1
 
 clean:
 	dh_testdir
 	dh_testroot
+	rm -f dh_metainit
 	
 	dh_clean 
 
@@ -36,6 +37,7 @@ binary-indep: build install
 	dh_installexamples
 	dh_installchangelogs
 	dh_install
+	
 	dh_installman
 	dh_compress
 	dh_fixperms
