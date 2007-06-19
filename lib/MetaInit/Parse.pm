@@ -115,10 +115,11 @@ sub parse {
 	$parsed{Desc} = $parsed{Name};
 	$parsed{"No-Auto"} = 0;
 
-    open(FILE, "<", $filename) || die $!;
+    open(my $file, "<", $filename) or
+        die "Failed to open input file `$filename': $!";
 
     my $lastkey;
-    while (<FILE>) {
+    while (<$file>) {
         chomp;
         # Ignore comments; unescape escaped #s
         s/[^\\]\#.*//;
@@ -139,7 +140,7 @@ sub parse {
             die "Cannot parse line: ``$_''";
         }
     }
-    close FILE;
+    close $file;
 
     
     if (not exists $parsed{Description}) {
