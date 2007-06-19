@@ -1,0 +1,26 @@
+This is metainit, written and maintained by Joachim Breitner <nomeata@debian.org>
+
+The original source can always be found at:
+	ftp://ftp.debian.org/dists/unstable/main/source/
+
+Copyright © 2007 Joachim Breitner <nomeata@debian.org>
+
+With invaluable contributions from:
+ * Florian Ragwitz <rafl@debian.org>
+ * Gunnar Wolf <gwolf@debian.org>
+ * Moritz Lenz <mlenz@physik.uni-wuerzburg.de>
+ * Urs Ganse <urs@nerd2nerd.org>
+
+  This program is free software; you can redistribute it and/or modify
+  it under the terms of the GNU General Public License version 2, as
+  published by the Free Software Foundation.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License with
+  the Debian GNU/Linux distribution in file /usr/share/common-licenses/GPL;
+  if not, write to the Free Software Foundation, Inc., 59 Temple Place,
+  Suite 330, Boston, MA  02111-1307  USA
