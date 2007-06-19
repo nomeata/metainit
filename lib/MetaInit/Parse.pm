@@ -144,6 +144,13 @@ sub process_data {
 sub fixup_results {
     my (%parsed) = @_;
 
+    my $error_msg = "";
+    for my $field (@mandatory) {
+            $error_msg .= "No '$field:' provided\n" unless exists $parsed{$field};
+    }
+
+    croak($error_msg) if $error_msg;
+
     if (not exists $parsed{Description}) {
         $parsed{Description} = $parsed{Desc}
     }
@@ -224,12 +231,6 @@ sub parse {
     process_data($data, \%parsed);
     %parsed = fixup_results(%parsed);
     
-    my $error_msg = "";
-    for (@mandatory){
-            $error_msg .= "No '$_:' provided\n" unless exists $parsed{$_};
-    } 
-    die $error_msg if $error_msg;
-
     return \%parsed;
 }
 
