@@ -199,6 +199,10 @@ sub parse {
         $parsed{File} = $file;
         $parsed{Name} = basename($file,'.metainit');
     }
+    else {
+        croak("no input given; you need to pass a `filename', "
+            . "an opened `handle' or an `input' string");
+    }
 
     if (!defined $parsed{File}) {
         if (ref $args->{fields} ne 'HASH'
@@ -228,7 +232,6 @@ sub parse {
 
     return \%parsed;
 }
-
 
 # Return a true value
 1;
