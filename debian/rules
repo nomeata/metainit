@@ -12,11 +12,13 @@
 
 build:	
 	pod2man debhelper/dh_metainit > dh_metainit.1
+	pod2man update-metainit update-metainit.1
 
 clean:
 	dh_testdir
 	dh_testroot
 	rm -f dh_metainit.1
+	rm -f update-metainit.1
 	
 	dh_clean 
 

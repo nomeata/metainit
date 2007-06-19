@@ -1,5 +1,51 @@
 #!/bin/sh
 
+=head1 NAME
+
+update-metainit - Generates init scripts
+
+=head1 SYNOPSIS
+
+B<update-metainit> [B<--remove> I<initname> [B<--purge>] ]
+
+=head1 DESCRIPTION
+
+I<Metainit> solves the problem of writing good init scripts. Instead
+of manually creating these important files, they are derived from a declaritive description in the metainit files in I</etc/metainit>. These files can be shipped with packages or created by the local administrator.  
+
+If B<update-metainit> called without argument, it will regenerate init scripts for all the files in I</etc/metainit>. The generated files contain a large warning
+in form of a comment that they will be overridden. Modifications are
+preferably done in the files in I</etc/metainit> and made effective by
+running B<update-metainit>. If needed, the administrator can prevent
+modified init files by removing the warning comment.
+
+=head1 OPTIONS
+
+=over 4
+
+=item B<--remove> I<initname>
+
+This command will remove any generated and non-modified scripts that
+were created by the metainit file with the name I<initname>.
+
+=item B<--purge>
+
+Only usable with B<--remove>. Will remove the generated files even if
+modified.
+
+=back 
+
+=head1 SEE ALSO
+
+metainit(5), dh_metainit(1)
+
+=head1 AUTHOR
+
+Joachim Breitner <nomeata@debian.org>
+
+=cut
+
+
 # Interface:
 # Rebuild init scripts (e.g., after a meta init script was added or edited)
 # $0 
