@@ -152,7 +152,7 @@ sub fixup_results {
     croak($error_msg) if $error_msg;
 
     if (not exists $parsed{Description}) {
-        $parsed{Description} = $parsed{Short-Description}
+        $parsed{Description} = $parsed{"Short-Description"}
     }
 
     ($parsed{Path}, $parsed{Args}) = split(/\s+/,$parsed{Exec});
@@ -225,7 +225,7 @@ sub parse {
 
     # Defaults:
 
-	$parsed{Short-Description} = $parsed{Name};
+	$parsed{"Short-Description"} = $parsed{Name};
 	$parsed{"No-Auto"} = 0;
 
     process_data($data, \%parsed);

@@ -35,7 +35,7 @@ print << "EOF";
 # Provides:          $initparams{"Name"}
 # Default-Start:     $rl_start
 # Default-Stop:      $rl_stop
-# Short-Description: $initparams{"Desc"}
+# Short-Description: $initparams{"Short-Description"}
 EOF
 
 print "# Required-Start:   " . join(" ",@{$initparams{"Required-Start"}}) . "\n";
