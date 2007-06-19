@@ -1,5 +1,33 @@
+
+# We assume that any previous installed /etc/init.d/#SCRIPT#
+# and /etc/default/#SCRIPT# files that are conffiles are not wanted any more.
+
+# Code taken from http://wiki.debian.org/DpkgConffileHandling
+
+rm_conffile() {
+    PKGNAME="$1"
+    CONFFILE="$2"
+
+    old_md5sum=`dpkg-query -W -f='${Conffiles}' $PKGNAME | awk '$3 == "obsolete" && $1=="'"$CONFFILE"'" {print $2}'`
+    if [ -n "$old_md5sum" -a -e "$CONFFILE" ]; then
+        md5sum="`md5sum \"$CONFFILE\" | sed -e \"s/ .*//\"`"
+        if [ "$md5sum" != "$old_md5sum" ]; then
+            echo "Obsolete conffile $CONFFILE has been modified by you."
+            echo "Saving as $CONFFILE.dpkg-bak ..."
+            mv -f "$CONFFILE" "$CONFFILE".dpkg-bak
+        else
+            echo "Removing obsolete conffile $CONFFILE ..."
+            rm -f "$CONFFILE"
+        fi
+    fi
+}
+
+rm_conffile #PACKAGE# "/etc/default/#SCRIPT#"
+rm_conffile #PACKAGE# "/etc/init.d/#SCRIPT#"
+
+update-metainit  >/dev/null || #ERROR_HANDLER#
+
 if [ -x "/etc/init.d/#SCRIPT#" ]; then
-	update-metainit #SCRIPT# #METAINITPARMS# >/dev/null
 	if [ -x "`which invoke-rc.d 2>/dev/null`" ]; then
 		invoke-rc.d #SCRIPT# start || #ERROR_HANDLER#
 	else
