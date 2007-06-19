@@ -2,6 +2,9 @@ package MetaInit::Parse;
 use v5.008;
 use strict;
 use warnings;
+use Carp qw/croak/;
+use File::Basename;
+use Scalar::Util qw/openhandle/;
 
 =head1 NAME
 
@@ -102,26 +105,20 @@ http://refspecs.freestandards.org/LSB_2.1.0/LSB-generic/LSB-generic/facilname.ht
 
 =cut
 
-use File::Basename;
-
 my @splits = qw(Required-Start Should-Start Required-Stop Should-Stop);
 my @mandatory = qw(Exec);
 
-sub parse {
-    my $filename = shift;
+sub slurp_from_fh {
+    my ($fh) = @_;
 
-    # Defaults:
+    return do { local $/; <$fh> };
+}
 
-    my %parsed;
-    $parsed{Name} = basename($filename,'.metainit');
-	$parsed{Desc} = $parsed{Name};
-	$parsed{"No-Auto"} = 0;
-
-    open(my $file, "<", $filename) or
-        die "Failed to open input file `$filename': $!";
+sub process_data {
+    my ($data, $parsed) = @_;
 
     my $lastkey;
-    while (<$file>) {
+    for (split /\n/, $data) {
         chomp;
         # Ignore comments; unescape escaped #s
         s/[^\\]\#.*//;
@@ -131,20 +128,22 @@ sub parse {
         s/^\s*\.\s*$//;
 
         if (my ($key, $value) = m/^(\S.*)\s*:\s*(.*)/) {
-            $parsed{$key} = $value;
+            $parsed->{$key} = $value;
             $lastkey = $key;
         }
         elsif ($lastkey) {
             s/^\s+//;
             s/^\.$//;
-            $parsed{$lastkey} .= "\n$_";
+            $parsed->{$lastkey} .= "\n$_";
         } else {
             die "Cannot parse line: ``$_''";
         }
     }
-    close $file;
+}
 
-    
+sub fixup_results {
+    my (%parsed) = @_;
+
     if (not exists $parsed{Description}) {
         $parsed{Description} = $parsed{Desc}
     }
@@ -172,13 +171,60 @@ sub parse {
         @{$parsed{$_}} = sort @{$parsed{$_}};
     }
 
+    return %parsed;
+}
+
+sub parse {
+    my ($args) = @_;
+
+    if (ref $args ne 'HASH') {
+        croak('hash reference expected');
+    }
+
+    my $data;
+    my %parsed;
+
+    if (defined $args->{input}) {
+        $data = $args->{input};
+    }
+    elsif (my $fh = openhandle($args->{handle})) {
+        $data = slurp_from_fh($fh);
+    }
+    elsif (defined (my $file = $args->{filename})) {
+        open(my $handle, '<', $file)
+            or die "Failed to open input file `$file': $!";
+
+        $data = slurp_from_fh($handle);
+
+        $parsed{File} = $file;
+        $parsed{Name} = basename($file,'.metainit');
+    }
+
+    if (!defined $parsed{File}) {
+        if (ref $args->{fields} ne 'HASH'
+         || !exists $args->{fields}->{File}
+         || !exists $args->{fields}->{Name}) {
+            croak("parsing from handles or strings requires the `fields' option to "
+                . "be set to a hash reference that defines both the `Name' and the "
+                . "`File' field.");
+        }
+    }
+
+    @parsed{keys %{ $args->{fields} }} = values %{ $args->{fields} };
+
+    # Defaults:
+
+	$parsed{Desc} = $parsed{Name};
+	$parsed{"No-Auto"} = 0;
+
+    process_data($data, \%parsed);
+    %parsed = fixup_results(%parsed);
+    
     my $error_msg = "";
     for (@mandatory){
             $error_msg .= "No '$_:' provided\n" unless exists $parsed{$_};
     } 
     die $error_msg if $error_msg;
-
-    $parsed{File} = $filename;
 
     return \%parsed;
 }
