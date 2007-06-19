@@ -1,6 +1,6 @@
-Desc: periodic command scheduler
-Description: cron is a standard UNIX program that runs user-specified 
- programs at periodic scheduled times. vixie cron adds a 
+Short-Description: periodic command scheduler
+Description: cron is a standard UNIX program that runs user-specified
+ programs at periodic scheduled times. vixie cron adds a
  number of features to the basic UNIX cron, including better
  security and more powerful configuration options.
 Exec: /usr/sbin/cron -f
