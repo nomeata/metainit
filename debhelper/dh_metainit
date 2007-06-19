@@ -107,7 +107,7 @@ foreach my $package (@{$dh{DOPACKAGES}}) {
 		$script=$package;
 	}       
 	
-	my $init=pkgfile($package,$script) || pkgfile($package,'metainit')
+	my $init=pkgfile($package,$script) || pkgfile($package,'metainit');
 
 	if ($init ne '' || $dh{ONLYSCRIPTS}) {
 		if (! $dh{ONLYSCRIPTS}) {
