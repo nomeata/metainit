@@ -12,7 +12,7 @@
 
 build:	
 	pod2man debhelper/dh_metainit > dh_metainit.1
-	pod2man update-metainit update-metainit.1
+	pod2man update-metainit.pod update-metainit.1
 
 clean:
 	dh_testdir
