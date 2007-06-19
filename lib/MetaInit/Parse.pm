@@ -146,7 +146,7 @@ sub fixup_results {
 
     my $error_msg = "";
     for my $field (@mandatory) {
-            $error_msg .= "No '$field:' provided\n" unless exists $parsed{$field};
+            $error_msg .= "Mandatory field `$field' not provided\n" unless exists $parsed{$field};
     }
 
     croak($error_msg) if $error_msg;
