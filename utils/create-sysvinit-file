@@ -57,7 +57,7 @@ print << "EOF"
 
 # PATH should only include /usr/* if it runs after the mountnfs.sh script
 PATH=/sbin:/usr/sbin:/bin:/usr/bin
-DESC=$quoted_initparams{"Desc"}
+DESC=$quoted_initparams{"Short-Description"}
 NAME=$quoted_initparams{"Name"}
 DAEMON=$initparams{"Path"}
 BASENAME=$initparams{"Basename"}

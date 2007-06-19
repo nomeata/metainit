@@ -36,7 +36,7 @@ A MetaInit file has several defined fields, out of which only C<Exec> is mandato
 
 =over 4
 
-=item Desc
+=item Short-Description
 
 A short (~60 character) description of the daemon. Merely informative.
 
@@ -152,7 +152,7 @@ sub fixup_results {
     croak($error_msg) if $error_msg;
 
     if (not exists $parsed{Description}) {
-        $parsed{Description} = $parsed{Desc}
+        $parsed{Description} = $parsed{Short-Description}
     }
 
     ($parsed{Path}, $parsed{Args}) = split(/\s+/,$parsed{Exec});
@@ -225,7 +225,7 @@ sub parse {
 
     # Defaults:
 
-	$parsed{Desc} = $parsed{Name};
+	$parsed{Short-Description} = $parsed{Name};
 	$parsed{"No-Auto"} = 0;
 
     process_data($data, \%parsed);
