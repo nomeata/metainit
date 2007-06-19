@@ -172,7 +172,7 @@ sub parse {
 
     my $error_msg = "";
     for (@mandatory){
-            $error_msg .= "No '$_:' provided\n" unless $parsed{$_};
+            $error_msg .= "No '$_:' provided\n" unless exists $parsed{$_};
     } 
     die $error_msg if $error_msg;
 
