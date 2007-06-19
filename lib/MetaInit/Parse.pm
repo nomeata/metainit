@@ -1,5 +1,7 @@
 package MetaInit::Parse;
 use v5.008;
+use strict;
+use warnings;
 
 =head1 NAME
 
