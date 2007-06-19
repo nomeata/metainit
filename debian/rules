@@ -16,7 +16,7 @@ build:
 clean:
 	dh_testdir
 	dh_testroot
-	rm -f dh_metainit
+	rm -f dh_metainit.1
 	
 	dh_clean 
 
