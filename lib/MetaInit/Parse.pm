@@ -53,7 +53,7 @@ should start the daemon in the I<foreground>, not send it to the background.
 =item Required-Start
 
 The facilities that should be started before this one. This can include the
-LSB facility names. It defaults to B<$remote_fs>.
+LSB facility names. It defaults to "B<$local_fs $network $remote_fs>.
 
 =item Required-Stop
 
@@ -227,8 +227,8 @@ sub parse {
 
 	$parsed{"Short-Description"} = $parsed{Name};
 	$parsed{"No-Auto"} = 0;
-    $parsed{"Required-Start"} = '$remote_fs';
-    $parsed{"Required-Stop"}  = '$remote_fs';
+    $parsed{"Required-Start"} = '$local_fs $network $remote_fs';
+    $parsed{"Required-Stop"}  = '$local_fs $network $remote_fs';
 
     process_data($data, \%parsed);
     %parsed = fixup_results(%parsed);
