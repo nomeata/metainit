@@ -3,6 +3,11 @@
 # Creates a sysvinit file from a metainit description.
 #
 
+#
+# Note that we’d like to adhere the LSB, so see
+# http://refspecs.freestandards.org/LSB_2.1.0/LSB-generic/LSB-generic/iniscrptact.html
+#
+
 use MetaInit::Parse;
 
 $filename = shift || die "Useage: $0 <filename>\n";
@@ -71,7 +76,7 @@ EOF
 # metainit-created scripts.
 print << 'EOF'
 # Exit if the package is not installed
-[ -x "$DAEMON" ] || exit 0
+[ -x "$DAEMON" ] || exit 5
 
 # Read configuration variable file if it is present
 [ -r /etc/default/$NAME ] && . /etc/default/$NAME
