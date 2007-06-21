@@ -78,9 +78,6 @@ print << 'EOF'
 # Exit if the package is not installed
 [ -x "$DAEMON" ] || exit 5
 
-# Read configuration variable file if it is present
-[ -r /etc/default/$NAME ] && . /etc/default/$NAME
-
 # Load the VERBOSE setting and other rcS variables
 . /lib/init/vars.sh
 
