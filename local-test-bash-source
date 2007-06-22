@@ -4,3 +4,4 @@
 
 export METAINIT_PREFIX="$PWD"
 export PERL5LIB="$PWD/lib:$PER5LIB"
+
