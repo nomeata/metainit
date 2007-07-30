@@ -35,7 +35,7 @@ modified.
 
 =head1 SEE ALSO
 
-metainit(5), dh_metainit(1)
+dh_metainit(1)
 
 =head1 AUTHOR
 

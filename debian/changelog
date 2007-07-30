@@ -1,8 +1,9 @@
 metainit (0.0.3) unstable; urgency=low
 
   * manpage with confusing names (Closes: #435149)
+  * Manpage refers to a non existing document (Closes: #435148)
 
- -- Joachim Breitner <nomeata@debian.org>  Mon, 30 Jul 2007 15:44:36 +0200
+ -- Joachim Breitner <nomeata@debian.org>  Mon, 30 Jul 2007 15:45:31 +0200
 
 metainit (0.0.2) unstable; urgency=low
 
