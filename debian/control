@@ -4,7 +4,8 @@ Priority: optional
 Maintainer: Joachim Breitner <nomeata@debian.org>
 Build-Depends: debhelper (>= 4.0.0)
 Standards-Version: 3.7.2
-XS-VCS-Darcs: http://darcs.nomeata.de/metainit
+XS-Vcs-Darcs: http://darcs.nomeata.de/metainit
+XS-Vcs-Browser: http://darcs.nomeata.de/cgi-bin/darcsweb.cgi?r=metainit;a=summary
 
 Package: metainit
 Architecture: all

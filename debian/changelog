@@ -1,3 +1,9 @@
+metainit (0.0.4) UNRELEASED; urgency=low
+
+  * add XS-Vcs-Browser header
+
+ -- Joachim Breitner <nomeata@debian.org>  Wed, 24 Oct 2007 00:54:58 +0200
+
 metainit (0.0.3) unstable; urgency=low
 
   * manpage with confusing names (Closes: #435149)
