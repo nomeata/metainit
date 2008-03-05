@@ -1,3 +1,9 @@
+metainit (0.0.5) unstable; urgency=low
+
+  * Exec now "sees" all arguments (Closes: #468051)
+
+ -- Joachim Breitner <nomeata@debian.org>  Wed, 05 Mar 2008 16:54:27 +0100
+
 metainit (0.0.4) UNRELEASED; urgency=low
 
   * add XS-Vcs-Browser header

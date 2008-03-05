@@ -155,7 +155,7 @@ sub fixup_results {
         $parsed{Description} = $parsed{"Short-Description"}
     }
 
-    ($parsed{Path}, $parsed{Args}) = split(/\s+/,$parsed{Exec});
+    ($parsed{Path}, $parsed{Args}) = split(/\s+/,$parsed{Exec},2);
     $parsed{Basename} = basename $parsed{Path};
 
     for (@splits){
